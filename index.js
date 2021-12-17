@@ -13,6 +13,9 @@ const app = express();
 // Passport Config
 require('./config/passport-local-strategy')(passport);
 
+// Passport Social Authentication
+const passportGoogle = require('./config/passport-google-oauth2-strategy');
+
 // EJS
 app.use(expressLayouts);
 app.set('view engine', 'ejs');

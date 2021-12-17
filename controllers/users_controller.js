@@ -62,7 +62,50 @@ module.exports.registerUser = async (req, res) => {
 
 }
 
+module.exports.resetPassword = async (req, res) => {
+    let user;
+    const { password } = req.body;
+    const errors = [];
+    if (!password) {
+        errors.push({ msg: "Please enter all the fields" });
+    }
 
+    if (password.length < 6) {
+        errors.push({ msg: "Password must be of atleast 6 characters" });
+    }
+
+    if (errors.length > 0) {
+        try {
+            user = await User.findById(req.params.id);
+        } catch(err) {
+            if (err) {
+                console.log(err);
+            } 
+        }
+        res.render('dashboard', {
+            errors,
+            password,
+            user
+        });
+    } else {
+        try {
+            user = await User.findById(req.params.id);
+            console.log('oldpassword ', user.password);
+            // to make password hashed
+            let salt = await bcrypt.genSalt();
+            let hashedPassword = await bcrypt.hash(password, salt);
+            user.password = hashedPassword;
+            await user.save();
+            console.log('newpassword ', user.password);
+            req.flash('success_msg', 'Password successfully changed')
+            res.redirect('back');
+        } catch (err) {
+            if (err) {
+                console.log(err);
+            }
+        }
+    }
+}
 
 module.exports.logout = (req, res) => {
     req.logout();

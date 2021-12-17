@@ -21,7 +21,14 @@ router.post('/login', auth.checkNotAuthenticated, passport.authenticate('local',
     failureFlash: true
 }));
 
+// Reset Password
+router.post('/:id/resetPassword', usersController.resetPassword);
+
 // Logout
 router.get('/logout', usersController.logout);
+
+// Social authentication
+router.get('/auth/google', passport.authenticate('google', {scope: ['profile', 'email']}));
+router.get('/auth/google/callback', passport.authenticate('google', { successRedirect: '/dashboard', failureRedirect: '/users/register'}));
 
 module.exports = router;

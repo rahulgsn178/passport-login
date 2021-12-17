@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-var db = process.env.DATABASEURL || "mongodb://localhost:27017/user-auth";
+var db = "mongodb://localhost:27017/user-auth";
 
 mongoose.connect(db, { useNewUrlParser: true })
     .then(() => console.log('MongoDB Connected'))

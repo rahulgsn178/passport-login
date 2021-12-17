@@ -1,3 +1,20 @@
 <h1 class="mt-4">Dashboard</h1>
-<p class="lead mb-3">Welcome <%= user.name %></p>
-<a href="/users/logout" class="btn btn-secondary">Logout</a>
+<p class="lead mb-3">Welcome <%= user.name %>
+</p>
+
+<div class="row mt-5">
+    <div class="col-md-6 m-auto">
+        <div class="card card-body">
+            <%- include('_messages'); %>
+            <form action="/users/<%= user._id %>/resetPassword" method="POST">
+                <div class="form-group">
+                    <label for="password">New Password :</label>
+                    <input type="password" id="password" name="password" class="form-control"
+                        placeholder="Password" />
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Reset Password</button>
+            </form>
+        </div>
+    </div>
+</div>
+<a href="/users/logout" class="btn btn-secondary mt-5">Logout</a>
